@@ -15,7 +15,7 @@
 <body>
 <div >
     <div>
-        <%@ include file="dbconn.jsp" %>
+        <%@ include file="dbconn_web.jsp" %>
         <%
             PreparedStatement pstmt = null;
             ResultSet rs = null;

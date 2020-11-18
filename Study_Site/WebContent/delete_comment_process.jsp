@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*"%>
-<%@ include file="dbconn.jsp"%>
+<%@ include file="dbconn_web.jsp"%>
 <%
     String user_id = request.getParameter("user_id");
     String post_id = request.getParameter("post_id");
