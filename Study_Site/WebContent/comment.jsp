@@ -37,7 +37,7 @@
                 String content = rs.getString("content");
                 java.util.Date createdDate = rs.getDate("createdDate");
                 java.util.Date updatedDate = rs.getDate("updatedDate");
-                int user_id = Integer.parseInt(rs.getString("user_id"));
+                int userId = Integer.parseInt(rs.getString("UserId"));
     %>
     <tr>
         <td><%=id%></td>
@@ -45,7 +45,7 @@
         <td><%=content%></td>
         <td><%=createdDate%></td>
         <td><%=updatedDate%></td>
-        <td><%=user_id%></td>
+        <td><%=userId%></td>
     </tr>
     <%
             }
@@ -64,7 +64,7 @@
 </table>
 
 <form method="post" action="comment_process.jsp">
-    <p>댓글달 게시글 선택 : <input type="text" name="post_id">
+    <p>댓글달 게시글 선택 : <input type="text" name="postId">
     <p>댓글 입력 : <input type="text" name="comment">
     <p><input type="submit" value="전송">
 </form>

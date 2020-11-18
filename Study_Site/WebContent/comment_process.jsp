@@ -17,7 +17,7 @@
     java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String today = formatter.format(new java.util.Date());
 
-    java.sql.Timestamp t = java.sql.Timestamp.valueOf(today);
+    java.sql.Timestamp dateTime = java.sql.Timestamp.valueOf(today);
 
 %>
 <body>
@@ -29,27 +29,27 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-    String userPick = request.getParameter("post_id");
+    String userPick = request.getParameter("postId");
     String userComment = request.getParameter("comment");
 
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
     try{
-        String sql = "select id, user_id from post where id = ?";
-        pstmt = conn.prepareStatement(sql);
+        String selectSql = "select id, UserId from post where id = ?";
+        pstmt = conn.prepareStatement(selectSql);
         pstmt.setString(1, userPick);
         rs = pstmt.executeQuery();
 
         if(rs.next()){
             String rId = rs.getString("id");
-            String rUserId = rs.getString("user_id");
+            String rUserId = rs.getString("UserId");
 
             if(userPick.equals(rId)){
-                sql = "insert into comment(createdDate, updatedDate, post_id, post_user_id, commentcol) values(?, ?, ?, ?, ?)";
-                pstmt = conn.prepareStatement(sql);
-                pstmt.setTimestamp(1, t);
-                pstmt.setTimestamp(2, t);
+                String insertSql = "insert into comment(createdDate, updatedDate, PostId, PostUserId, commentCol) values(?,?,?,?,?)";
+                pstmt = conn.prepareStatement(insertSql);
+                pstmt.setTimestamp(1, dateTime);
+                pstmt.setTimestamp(2, dateTime);
                 pstmt.setString(3, userPick);
                 pstmt.setString(4, rUserId);
                 pstmt.setString(5, userComment);

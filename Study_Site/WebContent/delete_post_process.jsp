@@ -19,27 +19,27 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-    String id = request.getParameter("user_id");
+    String id = request.getParameter("userId");
 
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
 
     try{
-        String sql = "select * from post";
-        pstmt = conn.prepareStatement(sql);
+        String selectSql = "select * from post";
+        pstmt = conn.prepareStatement(selectSql);
         rs = pstmt.executeQuery();
 
         if(rs.next()){
-            String rId = rs.getString("user_id");
+            String rId = rs.getString("UserId");
 
 
             if(id.equals(rId)){
-                sql = "delete from post where id = ?";
-                pstmt = conn.prepareStatement(sql);
+                String deleteSql = "delete from post where id = ?";
+                pstmt = conn.prepareStatement(deleteSql);
                 pstmt.setString(1, id);
                 pstmt.executeUpdate();
-                out.println(user_id + "에 해당하는 테이블 삭제 완료");
+                out.println( id + "에 해당하는 테이블 삭제 완료");
             }
             else{
                 out.println("일치하는 아이디가 없습니다.");

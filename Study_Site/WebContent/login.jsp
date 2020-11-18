@@ -12,7 +12,7 @@
 </head>
 <body>
 <form method="post" action="login_process.jsp">
-<p>아이디 : <input type="text" name="id">
+<p>이메일 : <input type="text" name="email">
 <p>비밀번호 : <input type="password" name="passwd">
 
 

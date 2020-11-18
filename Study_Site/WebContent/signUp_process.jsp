@@ -6,8 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import = "java.util.Date" %>
-<%@ page import = "java.text.SimpleDateFormat" %>
 <%@ page import = "java.sql.*" %>
 
 
@@ -18,8 +16,10 @@
 </head>
 
 <%
-    java.util.Date utilDate = new java.util.Date();
-    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String today = formatter.format(new java.util.Date());
+
+    java.sql.Timestamp dateTime = java.sql.Timestamp.valueOf(today);
 %>
 <body>
 
@@ -28,7 +28,6 @@
 <%
     request.setCharacterEncoding("utf-8");
 
-    int id = Integer.parseInt(request.getParameter("id"));
     String email = request.getParameter("email");
     String name = request.getParameter("name");
     String passwd = request.getParameter("passwd");
@@ -36,16 +35,15 @@
     PreparedStatement pstmt = null;
 
     try{
-        String sql = "insert into user(id, email, name, password, createdDate, updatedDate) values(?,?,?,?,?,?)";
+        String sql = "insert into user(email, name, password, createdDate, updatedDate) values(?,?,?,?,?)";
         pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, id);
-        pstmt.setString(2, email);
-        pstmt.setString(3, name);
-        pstmt.setString(4, passwd);
-        pstmt.setDate(5, sqlDate);
-        pstmt.setDate(6, sqlDate);
+        pstmt.setString(1, email);
+        pstmt.setString(2, name);
+        pstmt.setString(3, passwd);
+        pstmt.setTimestamp(4, dateTime);
+        pstmt.setTimestamp(5, dateTime);
         pstmt.executeUpdate();
-        out.println("user table 삽입 성공");
+        response.sendRedirect("login.jsp");
     }
     catch(SQLException ex){
         out.println("user 테이블 삽입 실패");

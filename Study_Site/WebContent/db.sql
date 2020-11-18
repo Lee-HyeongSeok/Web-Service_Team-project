@@ -3,7 +3,7 @@ CREATE DATABASE STUDY_CAFE;
 USE STUDY_CAFE;
 
 CREATE TABLE `user` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `name` varchar(45) NOT NULL,
   `password` varchar(60) NOT NULL,
@@ -13,40 +13,37 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `post` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(45) NOT NULL,
-  `content` varchar(3000) DEFAULT NULL,
+  `content`  text COLLATE utf8mb4_general_ci NULL,
   `createdDate` datetime NOT NULL,
   `updatedDate` datetime NOT NULL,
-  `user_id` int NOT NULL,
-  `category_id` int NOT NULL,
-  PRIMARY KEY (`id`,`user_id`),
-  KEY `fk_post_user1_idx` (`user_id`),
-  CONSTRAINT `fk_post_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `UserId` int NOT NULL,
+  `CategoryId` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `UserId` (`UserId`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 CREATE TABLE `category` (
-  `id` int NOT NULL,
-  `category` varchar(45) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `category` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `createdDate` datetime NOT NULL,
   `updatedDate` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `comment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `commentCol` text COLLATE utf8mb4_general_ci NOT NULL,
   `createdDate` datetime NOT NULL,
   `updatedDate` datetime NOT NULL,
-  `post_id` int NOT NULL,
-  `post_user_id` int NOT NULL,
-  `commentcol` varchar(200),
-  PRIMARY KEY (`post_id`,`post_user_id`),
-  CONSTRAINT `fk_comment_post1` FOREIGN KEY (`post_id`, `post_user_id`) REFERENCES `post` (`id`, `user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `PostId` int DEFAULT NULL,
+  `PostUserId` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `comment_ibfk1` FOREIGN KEY (`PostId`) REFERENCES `post` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `comment_ibfk2` FOREIGN KEY (`PostUserId`) REFERENCES `post` (`UserId`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-select post.id as id, post.title as title,post.updatedDate as updatedDate, user.name as name
-from post ,user
-where post.user_id = user.id
-    and post.category_id = ( select id from category
-                        where category = '리눅스');
-
+INSERT INTO `study_cafe`.`post` (`id`, `title`, `content`, `createdDate`, `updatedDate`, `UserId`, `CategoryId`) VALUES ('1', '첫번째 게시글', '안녕하세요', '20-11-19 01:26:37', '20-11-19 01:26:37', '1', '1');

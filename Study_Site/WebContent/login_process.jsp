@@ -12,29 +12,29 @@
 <%
     request.setCharacterEncoding("UTF-8");
 
-    String id = request.getParameter("id");
+    String email = request.getParameter("email");
     String passwd = request.getParameter("passwd");
 
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    String sql = "SELECT id,password FROM USER WHERE id=? and password=?";
+    String sql = "SELECT email,password FROM USER WHERE email=? and password=?";
     pstmt = conn.prepareStatement(sql);
-    pstmt.setString(1, id);
+    pstmt.setString(1, email);
     pstmt.setString(2, passwd);
     rs = pstmt.executeQuery();
 
     if (rs.next()) {
-        String rId = rs.getString("id");
+        String rId = rs.getString("email");
         String rPasswd = rs.getString("password");
 
-        if (id.equals(rId) && passwd.equals(rPasswd)) {
-            session.setAttribute("sessionId",id );
+        if (email.equals(rId) && passwd.equals(rPasswd)) {
+            session.setAttribute("sessionId",email );
             response.sendRedirect("main.jsp");
         } else
-            out.println("일치하는 비밀번호가 아닙니다");
+            out.println("일치하는 비밀번호가 아닙니다.");
     } else
-        out.println("아이디가 존재하지않습니다.");
+        out.println("로그인에 실패하셨습니다.");
 %>
 
 

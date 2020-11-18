@@ -9,27 +9,27 @@
 <%@ page import="java.sql.*"%>
 <%@ include file="dbconn_web.jsp"%>
 <%
-    String user_id = request.getParameter("user_id");
-    String post_id = request.getParameter("post_id");
-    String comment_id = request.getParameter("comment_id");
+    String userId = request.getParameter("userId");
+    String postId = request.getParameter("PostId");
+    String commentId = request.getParameter("commentId");
     String date=null;
 
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    String sql = "select * from comment user_id = ? and  post_id= ?  desc createdDate";
+    String sql = "select * from comment UserId = ? and  PostId= ?  desc id";
     pstmt = conn.prepareStatement(sql);
     rs = pstmt.executeQuery();
-    for(int i=0; i < Integer.parseInt(comment_id); i++){
+    for(int i=0; i < Integer.parseInt(commentId); i++){
         rs.next();
         date = rs.getString("createdDate");
     }
     rs.beforeFirst();
     if (rs.next()) {
-        sql = "delete from comment where user_id =? and post_id = ? and createdDate =?";
+        sql = "delete from comment where UserId =? and PostId = ? and createdDate =?";
         pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, user_id);
-        pstmt.setString(2, post_id);
+        pstmt.setString(1, userId);
+        pstmt.setString(2, postId);
         pstmt.setString(3, date);
         pstmt.executeUpdate();
     } else

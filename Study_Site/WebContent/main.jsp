@@ -12,5 +12,7 @@
 </head>
 <body>
 hi!
+This is Main Page
+<p><a href="comment.jsp">댓글 달러가기</a></p>
 </body>
 </html>

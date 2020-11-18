@@ -13,7 +13,7 @@
     request.setCharacterEncoding("UTF-8");
 
     Integer id = null;
-    String user_id = request.getParameter("user_id");
+    String userId = request.getParameter("userId");
     String title = request.getParameter("title");
     String content = request.getParameter("content");
 
@@ -32,7 +32,7 @@
     <sql:param value="<%=content%>" />
     <sql:param value="<%=sqlDate%>" />
     <sql:param value="<%=sqlDate%>" />
-    <sql:param value="<%=user_id%>" />
+    <sql:param value="<%=userId%>" />
 </sql:update>
 
 <c:if test="${resultSet>=1}">

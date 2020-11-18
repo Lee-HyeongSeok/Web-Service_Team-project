@@ -37,7 +37,7 @@
                 String content = rs.getString("content");
                 java.util.Date createdDate = rs.getDate("createdDate");
                 java.util.Date updatedDate = rs.getDate("updatedDate");
-                int user_id = Integer.parseInt(rs.getString("user_id"));
+                int userId = Integer.parseInt(rs.getString("UserId"));
     %>
     <tr>
         <td><%=id%></td>
@@ -45,7 +45,7 @@
         <td><%=content%></td>
         <td><%=createdDate%></td>
         <td><%=updatedDate%></td>
-        <td><%=user_id%></td>
+        <td><%=userId%></td>
     </tr>
     <%
             }
@@ -64,7 +64,7 @@
 </table>
 
 <form method="post" action="delete_post_process.jsp">
-    <p>삭제할 테이블 선택 : <input type="text" name="user_id">
+    <p>삭제할 테이블 선택 : <input type="text" name="userId">
     <p><input type="submit" value="전송">
 </form>
 </body>
