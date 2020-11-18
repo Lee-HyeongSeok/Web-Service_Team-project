@@ -24,7 +24,7 @@
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
-				String rId = rs.getString("user_id");
+				String rId = rs.getString("id");
 				
 				
 				if(id.equals(rId)){
@@ -32,7 +32,8 @@
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, id);
 					pstmt.executeUpdate();
-					out.println(user_id + "에 해당하는 테이블 삭제 완료");
+					out.println("게시글 소유자에 해당하는 테이블 삭제 완료");
+					
 				}
 				else{
 					out.println("일치하는 아이디가 없습니다.");

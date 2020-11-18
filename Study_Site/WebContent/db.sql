@@ -38,18 +38,19 @@ CREATE TABLE `comment` (
   `updatedDate` datetime NOT NULL,
   `post_id` int NOT NULL,
   `post_user_id` int NOT NULL,
+  'commentcol' varchar(200) NOT NULL,
   PRIMARY KEY (`post_id`,`post_user_id`),
   CONSTRAINT `fk_comment_post1` FOREIGN KEY (`post_id`, `post_user_id`) REFERENCES `post` (`id`, `user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `post_category` (
-  `post_user_id` int NOT NULL,
+  `post_id` int NOT NULL,
   `category_id` int NOT NULL,
   `createdDate` datetime NOT NULL,
   `updatedDate` datetime NOT NULL,
-  KEY `fk_post_category_post1_idx` (`post_user_id`),
+  KEY `fk_post_category_post1_idx` (`post_id`),
   KEY `fk_post_category_category1_idx` (`category_id`),
   CONSTRAINT `fk_post_category_category1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  CONSTRAINT `fk_post_category_post1` FOREIGN KEY (`post_user_id`) REFERENCES `post` (`user_id`)
+  CONSTRAINT `fk_post_category_post1` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

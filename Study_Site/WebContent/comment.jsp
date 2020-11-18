@@ -58,8 +58,9 @@
 		%>
 	</table>
 	
-	<form method="post" action="delete_post_process.jsp">
-		<p>삭제할 게시글 아이디 선택 : <input type="text" name="user_id">
+	<form method="post" action="comment_process.jsp">
+		<p>댓글달 게시글 선택 : <input type="text" name="post_id">
+		<p>댓글 입력 : <input type="text" name="comment">
 		<p><input type="submit" value="전송">
 	</form>
 </body>
