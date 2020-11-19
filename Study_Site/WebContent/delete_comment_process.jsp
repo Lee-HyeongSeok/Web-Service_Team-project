@@ -9,38 +9,43 @@
 <%@ page import="java.sql.*"%>
 <%@ include file="dbconn_web.jsp"%>
 <%
+    request.setCharacterEncoding("utf-8");
+
     String userId = request.getParameter("userId");
-    String postId = request.getParameter("PostId");
+    String postId = request.getParameter("postId");
     String commentId = request.getParameter("commentId");
-    String date=null;
 
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    String sql = "select * from comment UserId = ? and  PostId= ?  desc id";
-    pstmt = conn.prepareStatement(sql);
-    rs = pstmt.executeQuery();
-    for(int i=0; i < Integer.parseInt(commentId); i++){
-        rs.next();
-        date = rs.getString("createdDate");
-    }
-    rs.beforeFirst();
-    if (rs.next()) {
-        sql = "delete from comment where UserId =? and PostId = ? and createdDate =?";
-        pstmt = conn.prepareStatement(sql);
+    try{
+        String selectSql = "select * from comment where PostUserId = ? and  PostId = ?";
+        pstmt = conn.prepareStatement(selectSql);
         pstmt.setString(1, userId);
         pstmt.setString(2, postId);
-        pstmt.setString(3, date);
-        pstmt.executeUpdate();
-    } else
-        out.println("댓글이 존재하지않습니다.");
+        rs = pstmt.executeQuery();
 
-    if (rs != null)
-        rs.close();
-    if (pstmt != null)
-        pstmt.close();
-    if (conn != null)
-        conn.close();
+        if (rs.next()) {
+            String deleteSql = "delete from comment where PostUserId =? and PostId = ? and id =?";
+            pstmt = conn.prepareStatement(deleteSql);
+            pstmt.setString(1, userId);
+            pstmt.setString(2, postId);
+            pstmt.setString(3,commentId);
+            pstmt.executeUpdate();
 
-    response.sendRedirect("main.jsp");
+            response.sendRedirect("main.jsp");
+        } else
+            out.println("댓글이 존재하지않습니다.");
+    }catch (SQLException ex){
+        out.println("comment 테이블 삭제 실패");
+        out.println("SQLException : " + ex.getMessage());
+    }finally {
+        if (rs != null)
+            rs.close();
+        if (pstmt != null)
+            pstmt.close();
+        if (conn != null)
+            conn.close();
+    }
+
 %>
