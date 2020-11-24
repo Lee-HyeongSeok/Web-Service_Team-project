@@ -18,7 +18,7 @@
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    String sql = "SELECT email,password FROM USER WHERE email=? and password=?";
+    String sql = "SELECT id,name,email,password FROM USER WHERE email=? and password=?";
     pstmt = conn.prepareStatement(sql);
     pstmt.setString(1, email);
     pstmt.setString(2, passwd);
@@ -29,7 +29,8 @@
         String rPasswd = rs.getString("password");
 
         if (email.equals(rId) && passwd.equals(rPasswd)) {
-            session.setAttribute("sessionId",email );
+            session.setAttribute("sessionName",rs.getString("name"));
+            session.setAttribute("sessionId",rs.getString("id"));
             response.sendRedirect("main.jsp");
         } else
             out.println("일치하는 비밀번호가 아닙니다.");

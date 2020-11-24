@@ -43,30 +43,38 @@
                 <div class="card">
                     <div class="card-header">Register</div>
                         <div class="card-body">
-                            <form method="post" action="signUp_process.jsp">
-                                <div class="form-group row">
-                                    <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="email" class="form-control" name="email" required autofocus>
+                            <form class="was-validated" method="post" action="signUp_process.jsp">
+                                <div class="mb-3">
+                                    <div class="input-group is-invalid">
+                                        <div class="input-group-prepend">
+                                            <label for="email" class="input-group-text">E-Mail</label>
+                                        </div>
+                                        <input type="email" id="email" class="form-control is-invalid" name="email" required autofocus>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="name" class="col-md-4 col-form-label text-md-right">Password</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="name" class="form-control" name="name" required>
+                                <div class="mb-3">
+                                    <div class="input-group is-invalid">
+                                        <div class="input-group-prepend">
+                                            <label for="name" class="input-group-text">name</label>
+                                        </div>
+                                        <input type="text" id="name" class="form-control is-invalid" name="name" required>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="passwd" class="col-md-4 col-form-label text-md-right">Password</label>
-                                    <div class="col-md-6">
-                                        <input type="password" id="passwd" class="form-control" name="passwd" required>
+                                <div class="mb-3">
+                                    <div class="input-group is-invalid">
+                                        <div class="input-group-prepend">
+                                            <label for="passwd" class="input-group-text">Password</label>
+                                        </div>
+                                        <input type="password" id="passwd" class="form-control is-invalid" name="passwd" required>
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="passwdRetype" class="col-md-4 col-form-label text-md-right">Retype Password</label>
-                                    <div class="col-md-6">
-                                        <input type="password" id="passwdRetype" class="form-control" name="passwdRetype" required>
+                                <div class="mb-3">
+                                    <div class="input-group is-invalid">
+                                        <div class="input-group-prepend">
+                                            <label for="passwdRetype" class="input-group-text">Retype Password</label>
+                                        </div>
+                                        <input type="password" id="passwdRetype" class="form-control is-invalid" name="passwdRetype" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6 offset-md-4">

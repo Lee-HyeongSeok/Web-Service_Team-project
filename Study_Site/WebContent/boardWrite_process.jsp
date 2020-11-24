@@ -28,10 +28,10 @@
 <%
     request.setCharacterEncoding("UTF-8");
 
-    String userId = request.getParameter("userId");
+    String userId = (String)session.getAttribute("sessionId");
     String title = request.getParameter("title");
     String content = request.getParameter("content");
-    String category = request.getParameter("category");
+    String categoryId = request.getParameter("categoryId");
 
     PreparedStatement pstmt = null;
 
@@ -43,7 +43,7 @@
         pstmt.setTimestamp(3, dateTime);
         pstmt.setTimestamp(4, dateTime);
         pstmt.setString(5, userId);
-        pstmt.setString(6, category);
+        pstmt.setString(6, categoryId);
         pstmt.executeUpdate();
 
         response.sendRedirect("main.jsp");

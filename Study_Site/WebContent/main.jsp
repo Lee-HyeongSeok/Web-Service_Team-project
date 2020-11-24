@@ -66,7 +66,7 @@
                  <tr>
                      <td>
                 <span style = "font-size:1.0em;  color: black; margin:4px">
-    	            <%=request.getParameterValues("name")%>님<br> 환영합니다.
+    	            <%=session.getAttribute("sessionName")%>님<br> 환영합니다.
 	            </span>
                      </td>
                  </tr>

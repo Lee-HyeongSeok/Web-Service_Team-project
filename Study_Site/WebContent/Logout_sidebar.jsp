@@ -11,7 +11,7 @@
 			<input type="button" style="width: 190pt;margin-bottom: 15px; height:30pt" class="btn btn-primary" id="myInfoBtn" onClick="window.location.href = 'info.jsp'" value="내 정보보기">
 		</div>
 		<div>
-			<input type="button" style="width: 190pt;margin-bottom: 15px; height:30pt" class="btn btn-primary " id="writeBtn" onClick="window.location.href = 'Board/wirte.jsp'" value="글쓰기">
+			<input type="button" style="width: 190pt;margin-bottom: 15px; height:30pt" class="btn btn-primary " id="writeBtn" onClick="window.location.href = 'boardWrite.jsp'" value="글쓰기">
 		</div>
 	</div>
 </div>

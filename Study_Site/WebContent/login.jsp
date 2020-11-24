@@ -51,18 +51,22 @@
                 <div class="card">
                     <div class="card-header">Login</div>
                         <div class="card-body">
-                            <form method="post" action="login_process.jsp">
-                                <div class="form-group row">
-                                    <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="email_address" class="form-control" name="email" required autofocus>
+                            <form method="post" class="was-validated" action="login_process.jsp">
+                                <div class="mb-3">
+                                    <div class="input-group is-invalid">
+                                        <div class="input-group-prepend">
+                                            <label for="email_address" class="input-group-text" style="width: 150px">E-Mail Address</label>
+                                        </div>
+                                        <input type="email" id="email_address" class="form-control is-invalid" name="email" required autofocus>
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-                                    <div class="col-md-6">
-                                        <input type="password" id="password" class="form-control" name="passwd" required>
+                                <div class="mb-3">
+                                    <div class="input-group is-invalid">
+                                        <div class="input-group-prepend">
+                                            <label for="password" class="input-group-text" style="width: 150px">Password</label>
+                                        </div>
+                                        <input type="password" id="password" class="form-control is-invalid" name="passwd" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6 offset-md-4">

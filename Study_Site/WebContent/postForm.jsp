@@ -14,7 +14,7 @@
 </head>
 <body>
 <!-- 아이디, 이메일, 이름, 비밀번호, 만든시간, 업데이트 시간, 주키는 아이디 -->
-<form method="post" action="postForm_process.jsp">
+<form method="post" action="boardWrite_process.jsp">
     <p>제목 : <input type="text" name="title">
     <p>내용 : <textarea cols="50" rows="10" name="content"></textarea>
     <p>카테고리 : <input type="text" name="category">

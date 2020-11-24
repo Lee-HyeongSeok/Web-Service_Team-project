@@ -16,10 +16,6 @@
 			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script
 			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-	<link rel="stylesheet" href="../css/login.css">
-
-
 </head>
 <body>
 <!-- header -->
@@ -30,7 +26,7 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 	<!-- 리스트 : 부트스트랩은 모바일 우선이라 화면이 작으면 아래로 쌓아서 내려온다 -->
 	<ul class="navbar-nav navbar-dark">
-		<li class="nav-item active"><a class="nav-link" href="../main.jsp">HOME</a></li>
+		<li class="nav-item active"><a class="nav-link" href="main.jsp">HOME</a></li>
 	</ul>
 	<!-- Search -->
 	<form class="form-inline ml-auto" action="">
@@ -71,7 +67,7 @@
 				<tr>
 					<td>
                 <span style = "font-size:1.0em;  color: black; margin:4px">
-    	            <%=request.getParameterValues("name")%>님<br> 환영합니다.
+    	            <%=session.getAttribute("sessionName")%>님<br> 환영합니다.
 	            </span>
 					</td>
 				</tr>
