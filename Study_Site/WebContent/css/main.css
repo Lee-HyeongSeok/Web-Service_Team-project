@@ -1,0 +1,35 @@
+#logoutBtn{
+    width : 124%;
+    margin: 4px;
+    background-color:rgba(0,0,0,0);
+    color: skyblue;
+    border:2px solid skyblue;
+
+}
+
+#myInfoBtn{
+    width : 124%;
+    margin:+4px;
+    background-color:rgba(0,0,0,0);
+    color: skyblue;
+    border:2px solid skyblue;
+}
+#writeBtn{
+    width : 124%;
+    margin:+4px;
+    background-color:rgba(0,0,0,0);
+    color: skyblue;
+    border:2px solid skyblue;
+}
+table {
+    margin:4px;
+    width: 100%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+    text-align:center;
+}
+th, td {
+    border: 1px solid #444444;
+    padding: 10px;
+    text-align:center;
+}

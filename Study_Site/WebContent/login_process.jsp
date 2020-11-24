@@ -35,6 +35,19 @@
             out.println("일치하는 비밀번호가 아닙니다.");
     } else
         out.println("로그인에 실패하셨습니다.");
+
+    if(rs != null){
+        out.println("rs close 발생");
+        rs.close();
+    }
+    if(pstmt != null){
+        out.println("2번째 pstmt close 발생");
+        pstmt.close();
+    }
+    if(conn != null){
+        out.println("conn close 발생");
+        conn.close();
+    }
 %>
 
 
