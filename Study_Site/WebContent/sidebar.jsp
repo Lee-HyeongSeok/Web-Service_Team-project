@@ -13,7 +13,7 @@
     <%
         while (rs.next()) {
     %>
-        <li class="list-group-item list-group-item-action"><a href="Board/list.jsp?category=<%=rs.getString("id")%>">
+        <li class="list-group-item list-group-item-action"><a href="boardList.jsp?category=<%=rs.getString("id")%>">
             <%= rs.getString("category") %></a></li>
     <%
         }

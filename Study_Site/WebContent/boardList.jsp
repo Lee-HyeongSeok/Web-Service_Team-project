@@ -30,7 +30,7 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 	<!-- 리스트 : 부트스트랩은 모바일 우선이라 화면이 작으면 아래로 쌓아서 내려온다 -->
 	<ul class="navbar-nav navbar-dark">
-		<li class="nav-item active"><a class="nav-link" href="/main.jsp">HOME</a></li>
+		<li class="nav-item active"><a class="nav-link" href="../main.jsp">HOME</a></li>
 	</ul>
 	<!-- Search -->
 	<form class="form-inline ml-auto" action="">
