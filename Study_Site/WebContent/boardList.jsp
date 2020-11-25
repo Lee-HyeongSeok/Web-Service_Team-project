@@ -105,7 +105,7 @@
 							rs = pstmt.executeQuery();
 
 						while(rs.next()) {%>
-				<tr  onclick="window.location.href='view.jsp'">
+				<tr  onclick="window.location.href='boardView.jsp?postId=<%=rs.getString("id")%>'">
 					<td scope="row">#<%=rs.getString("id")%></td>
 					<td><%=rs.getString("title")%></td>
 					<td><%=rs.getString("UserId")%></td>

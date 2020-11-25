@@ -1,25 +1,9 @@
-#logoutBtn{
-    width : 124%;
+#logoutBtn,#loginBtn,#signupBtn,#myInfoBtn,#writeBtn {
+    width: 124%;
     margin: 4px;
-    background-color:rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     color: skyblue;
-    border:2px solid skyblue;
-
-}
-
-#myInfoBtn{
-    width : 124%;
-    margin:+4px;
-    background-color:rgba(0,0,0,0);
-    color: skyblue;
-    border:2px solid skyblue;
-}
-#writeBtn{
-    width : 124%;
-    margin:+4px;
-    background-color:rgba(0,0,0,0);
-    color: skyblue;
-    border:2px solid skyblue;
+    border: 2px solid skyblue;
 }
 table {
     margin:4px;

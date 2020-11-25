@@ -1,51 +1,140 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-	<form name="BoardViewForm" method="post">
-	<table summary="전체 테이블 구성">
-	<tr>
-		<td ><div align="center"><h3><b>게시글 읽기</b></h3></div></td>
-	</tr>
-	<tr>
-		<td colspan=2>
-		<table border="1" summary="목록 테이블 구성"> 
-    <tr> 
-		<td align=center bgcolor=white width=10%> 작성자</td>
-		<td bgcolor=#ffffe8 width=40%>지후니</td>
-	</tr>
-	<tr>
-		<td align=center bgcolor=white width=10%> 작성일</td>
-		<td bgcolor=#ffffe8 width=40%>2015/11/23</td>	
-	</tr>
-    
-	<tr> 
-		<td align=center bgcolor=white> 제 목</td>
-		<td bgcolor=#ffffe8 colspan=3> 게시판 글입니다</td>
-   </tr>
-   <tr> 
-		<td colspan=4><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
-		incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-		ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-		voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-		sunt in culpa qui officia deserunt mollit anim id est laborum.<br></td>
-   </tr>
-   <tr>
-		<td colspan=4 align="right"> 조회수  : 4 </td>
-   </tr>
-	</table>
-	</td>
- 	</tr>
-	<tr>
-		<td align=center colspan=2> 
-		<hr size=1>
-		<div align="center">
-		 <input type="button" value="목록" onclick="">
-		<input type="button" value="수정" onclick="">
-		<input type="button" value="답변" onclick="">
-		<input type="button" value="삭제" onclick="">
+		 pageEncoding="UTF-8"%>
+<%@ page import = "java.util.Date" %>
+
+<!-- 나중에 boardView에 복붙하기  -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Study Cafe :: Home</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- CSS -->
+	<link rel="stylesheet"
+		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<!-- JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/login.css">
+	<link rel="icon" href="image/favicon.png">
+</head>
+<body>
+
+<!-- header -->
+<div class="jumbotron text-center mb-0">
+	<h1>Study Cafe</h1>
+	<p>Connective Programming study community</p>
+</div>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<!-- 리스트 : 부트스트랩은 모바일 우선이라 화면이 작으면 아래로 쌓아서 내려온다 -->
+	<ul class="navbar-nav navbar-dark">
+		<li class="nav-item active"><a class="nav-link" href="main.jsp">HOME</a></li>
+	</ul>
+	<!-- Search -->
+	<form class="form-inline ml-auto" action="">
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<ul class="navbar-nav navbar-dark">
+				<li class="nav-item"><a class="nav-link" href="#">공지사항</a></li>
+				<li class="nav-item"><a class="nav-link disabled" href="#">카페소개</a></li>
+				<li class="nav-item dropdown">
+					<!-- 드롭다운 메뉴-->
+					<a class="nav-link dropdown-toggle" href="#"
+					   data-toggle="dropdown"> Dropdown </a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="#">Link 1</a>
+						<a class="dropdown-item" href="#">Link 2</a>
+						<a class="dropdown-item" href="#">Link 3</a>
+					</div>
+				</li>
+			</ul>
+		</nav>
+		<!-- inline여야 간격이 없이 메뉴처럼 나온다. ml-atuo : 우측으로 붙게하기-->
+		<input class="form-control mr-sm-2" type="text" placeholder="Search">
+		<!-- form-control 입력창 꾸며주는 클래스 -->
+		<button class="btn btn-success" type="submit">Search</button>
+	</form>
+</nav>
+
+
+
+
+<!-- content -->
+<div class="container pt-3">
+	<div class="row">
+		<!-- left content -->
+		<div class="col-sm-3">
+
+			<% if(request.isRequestedSessionIdValid()){%>
+			<table>
+				<tr>
+					<td>
+                <span style = "font-size:1.0em;  color: black; margin:4px">
+                   <%=session.getAttribute("sessionName")%>님<br> 환영합니다.
+               </span>
+					</td>
+				</tr>
+			</table>
+			<hr>
+			<%@include file="Logout_sidebar.jsp" %>
+			<% }else{%>
+			<%@include file="Login_sidebar.jsp" %>
+			<%}%>
+			<hr>
+			<!-- side menu (link) -->
+			<%@include file="sidebar.jsp" %>
 		</div>
-		</td>
-	</tr>
-	</table>
-</form>
-            
- 
+		<!-- right content -->
+		<div class="col-sm-8">
+			<%
+				request.setCharacterEncoding("UTF-8");
+				Integer postId = Integer.parseInt(request.getParameter("postId"));
+				String name = null;
+				Date createdDate = null;
+				String title = null;
+				String content = null;
+				try{
+					String selectSql = "SELECT * FROM post where id = ? JOIN";
+					pstmt = conn.prepareStatement(selectSql);
+					pstmt.setInt(1, postId); // postId가 post 테이블의 Id
+					rs = pstmt.executeQuery();
+
+					if(rs.next()) {
+						name = rs.getString("UserId");
+						createdDate = rs.getDate("createdDate");
+						title = rs.getString("title");
+						content = rs.getString("content");
+					}
+				}
+				catch(SQLException ex){
+					out.println("해당 게시글 불러오기 실패");
+					out.println("SQLException : " + ex.getMessage());
+				}
+				finally{
+					if(pstmt != null)
+						pstmt.close();
+					if(conn != null)
+						conn.close();
+				}
+			%>
+
+			<div>
+				<label for="name">작성자 : </label>
+				<p id="name"> <%=name%></p>
+			</div>
+			<div>
+				<p > <%=createdDate%></p>
+			</div>
+			<p> <%=title%></p>
+			<p > <%=content%> </p>
+
+
+		</div>
+
+	</div>
+</div>
+<!-- footer -->
+<%@include file="footer.jsp" %>
+
+</body>
+</html>
