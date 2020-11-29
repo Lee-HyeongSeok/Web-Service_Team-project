@@ -9,6 +9,7 @@
 	<!-- CSS -->
 	<link rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
 	<!-- JS -->
 	<script
 			src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -84,7 +85,7 @@
 		<!-- right content -->
 		<div class="col-sm-8">
 			<marquee behavior="alternate" scrolldelay="100" direction="right">
-				Anonymous님 반갑습니다.</marquee>
+				<%=session.getAttribute("sessionName")%>님 반갑습니다.</marquee>
 			<table class="table" style="width : 800px; height : 200px" >
 				<thead class="thead-dark">
 				<tr>
@@ -128,13 +129,12 @@
 				%>
 				</tbody>
 			</table>
-			<input type="button" value="처음으로" onclick="" />
-			<input type="button" value="글쓰기" onclick="" />
+			<input type="button" value="글쓰기" onclick="document.location='boardWrite.jsp';" />
 		</div>
 	</div>
 </div>
 <!-- footer -->
-<%@include file="../footer.jsp" %>
+<%@include file="footer.jsp" %>
 
 </body>
 </html>

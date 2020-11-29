@@ -5,8 +5,8 @@
   Time: 오후 11:18
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html; charset=utf-8"%>
-<%@ page import = "java.sql.*" %>
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@ page import="java.sql.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ include file="dbconn_web.jsp" %>
 <html>
@@ -28,14 +28,14 @@
 <%
     request.setCharacterEncoding("UTF-8");
 
-    String userId = (String)session.getAttribute("sessionId");
+    String userId = (String) session.getAttribute("sessionId");
     String title = request.getParameter("title");
     String content = request.getParameter("content");
     String categoryId = request.getParameter("categoryId");
 
     PreparedStatement pstmt = null;
 
-    try{
+    try {
         String insertSql = "INSERT INTO post(title,content,createdDate,updatedDate,UserId,CategoryId) VALUES ( ?, ?, ?, ?, ?, ?)";
         pstmt = conn.prepareStatement(insertSql);
         pstmt.setString(1, title);
@@ -48,13 +48,13 @@
 
         response.sendRedirect("main.jsp");
 
-    }catch(SQLException ex){
+    } catch (SQLException ex) {
         out.println("post 테이블 삽입 실패");
         out.println("SQLException : " + ex.getMessage());
-    }finally{
-        if(pstmt != null)
+    } finally {
+        if (pstmt != null)
             pstmt.close();
-        if(conn != null)
+        if (conn != null)
             conn.close();
     }
 %>

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import = "java.sql.*" %>
+<%@ page import="java.sql.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ include file="dbconn_web.jsp" %>
 <html>
@@ -35,17 +35,17 @@
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    try{
+    try {
         String selectSql = "select id, UserId from post where id = ?";
         pstmt = conn.prepareStatement(selectSql);
         pstmt.setString(1, userPick);
         rs = pstmt.executeQuery();
 
-        if(rs.next()){
+        if (rs.next()) {
             String rId = rs.getString("id");
             String rUserId = rs.getString("UserId");
 
-            if(userPick.equals(rId)){
+            if (userPick.equals(rId)) {
                 String insertSql = "insert into comment(createdDate, updatedDate, PostId, PostUserId, commentCol) values(?,?,?,?,?)";
                 pstmt = conn.prepareStatement(insertSql);
                 pstmt.setTimestamp(1, dateTime);
@@ -55,18 +55,17 @@
                 pstmt.setString(5, userComment);
                 pstmt.executeUpdate();
                 out.println("comment 테이블 삽입 성공");
-            }
-            else{
+            } else {
                 out.println("일치하는 소유자가 없습니다.");
             }
         }
-    }catch(SQLException ex){
+    } catch (SQLException ex) {
         out.println("comment 테이블 삽입 실패");
         out.println("SQLException : " + ex.getMessage());
-    }finally{
-        if(pstmt != null)
+    } finally {
+        if (pstmt != null)
             pstmt.close();
-        if(conn != null)
+        if (conn != null)
             conn.close();
     }
 %>

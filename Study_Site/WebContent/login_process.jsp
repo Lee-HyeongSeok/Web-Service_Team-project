@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.sql.*"%>
-<%@ include file="dbconn_web.jsp"%>
+<%@ page import="java.sql.*" %>
+<%@ include file="dbconn_web.jsp" %>
 
 <%
     request.setCharacterEncoding("UTF-8");
@@ -29,23 +29,23 @@
         String rPasswd = rs.getString("password");
 
         if (email.equals(rId) && passwd.equals(rPasswd)) {
-            session.setAttribute("sessionName",rs.getString("name"));
-            session.setAttribute("sessionId",rs.getString("id"));
+            session.setAttribute("sessionName", rs.getString("name"));
+            session.setAttribute("sessionId", rs.getString("id"));
             response.sendRedirect("main.jsp");
         } else
             out.println("일치하는 비밀번호가 아닙니다.");
     } else
         out.println("로그인에 실패하셨습니다.");
 
-    if(rs != null){
+    if (rs != null) {
         out.println("rs close 발생");
         rs.close();
     }
-    if(pstmt != null){
+    if (pstmt != null) {
         out.println("2번째 pstmt close 발생");
         pstmt.close();
     }
-    if(conn != null){
+    if (conn != null) {
         out.println("conn close 발생");
         conn.close();
     }

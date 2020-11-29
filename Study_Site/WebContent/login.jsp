@@ -26,8 +26,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
-
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/login_register_form.css">
 
     <link rel="icon" href="image/favicon.png">
 
@@ -50,32 +49,37 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Login</div>
-                        <div class="card-body">
-                            <form method="post" class="was-validated" action="login_process.jsp">
-                                <div class="mb-3">
-                                    <div class="input-group is-invalid">
-                                        <div class="input-group-prepend">
-                                            <label for="email_address" class="input-group-text" style="width: 150px">E-Mail Address</label>
-                                        </div>
-                                        <input type="email" id="email_address" class="form-control is-invalid" name="email" required autofocus>
+                    <div class="card-body">
+                        <form method="post" class="was-validated" action="login_process.jsp">
+                            <div class="mb-3">
+                                <div class="input-group is-invalid">
+                                    <div class="input-group-prepend">
+                                        <label for="email_address" class="input-group-text">E-Mail Address</label>
                                     </div>
+                                    <input type="email" id="email_address" class="form-control is-invalid" name="email"
+                                           required autofocus>
                                 </div>
+                            </div>
 
-                                <div class="mb-3">
-                                    <div class="input-group is-invalid">
-                                        <div class="input-group-prepend">
-                                            <label for="password" class="input-group-text" style="width: 150px">Password</label>
-                                        </div>
-                                        <input type="password" id="password" class="form-control is-invalid" name="passwd" required>
+                            <div class="mb-3">
+                                <div class="input-group is-invalid">
+                                    <div class="input-group-prepend">
+                                        <label for="password" class="input-group-text">Password</label>
                                     </div>
+                                    <input type="password" id="password" class="form-control is-invalid" name="passwd"
+                                           required>
                                 </div>
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Login
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div style="text-align: center">
+                                <button type="submit" class="btn btn-primary">
+                                    로그인
+                                </button>
+                                <button onclick="history.go(-1)" class="btn btn-primary">
+                                    취소
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
   Time: 오후 8:51
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="java.sql.*"%>
+<%@ page import="java.sql.*" %>
 <%
     Connection conn = null;
     String url = "jdbc:mysql://localhost:3306/study_cafe?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false";
