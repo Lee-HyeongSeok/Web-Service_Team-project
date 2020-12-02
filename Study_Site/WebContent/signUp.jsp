@@ -30,6 +30,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
+            $("#alert-length").hide();
             $("#alert-success").hide();
             $("#alert-danger").hide();
             $("input").keyup(function () {
@@ -47,8 +48,7 @@
                         $("#alert-success").hide();
                         $("#alert-danger").hide();
                         $("#submitBtn").attr("disabled", "disabled");
-                    }
-                    else if (pwd1 == pwd2) {
+                    } else if (pwd1 == pwd2) {
                         $("#alert-success").show();
                         $("#alert-length").hide();
                         $("#alert-danger").hide();
@@ -67,13 +67,11 @@
     <title>Study Cafe :: Sign Up</title>
 </head>
 <body>
+<div class="jumbotron text-center mb-0" style="background:#08060b; padding : 0;border-radius: 0">
+    <a href="main.jsp"><img alt="special study cafe" src="image/scs.jpg" style="height:100%"></a>
+</div>
 
-<div class="jumbotron text-center mb-0">
-    <h1>Study Cafe</h1>
-    <p>Conative Programming study community</p>
-</div>&nbsp;
-
-<main class="login-form">
+<main class="login-form" style="margin: 40px 5px">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -121,10 +119,10 @@
                             <div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
                             <div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
                             <div style="text-align: center">
-                                <button type="submit" id ="submitBtn"  class="btn btn-outline-info">
+                                <button type="submit" id="submitBtn" class="btn btn-outline-info">
                                     회원가입
                                 </button>
-                                <button onclick="history.go(-1)"  class="btn btn-outline-info">
+                                <button onclick="history.go(-1)" class="btn btn-outline-info">
                                     취소
                                 </button>
                             </div>

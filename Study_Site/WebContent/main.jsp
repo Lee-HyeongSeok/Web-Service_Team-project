@@ -92,10 +92,10 @@
         </div>
         <!-- right content -->
         <div class="col-sm-8">
-            <h2>Special Cafe for Study</h2>
+            <h1>Special Cafe for Study</h1>
             <hr>
             <!-- side menu (link) -->
-            <h3>안녕하세요</h3>
+            <h3>여기에 본문을 삽입해봅시다.</h3>
 
         </div>
     </div>

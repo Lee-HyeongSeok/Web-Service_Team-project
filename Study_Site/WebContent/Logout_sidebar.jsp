@@ -23,7 +23,7 @@
             session.invalidate();
         %>
           <script>
-            alert("접근 권한이 없습니다.");
+            alert("로그인이 필요합니다.");
 
             window.location.href="main.jsp";
           </script>
