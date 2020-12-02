@@ -33,7 +33,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
-    <title>Login</title>
+    <title>Study Cafe :: Login</title>
 </head>
 <body>
 
@@ -71,10 +71,10 @@
                                 </div>
                             </div>
                             <div style="text-align: center">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit"  class="btn btn-outline-info">
                                     로그인
                                 </button>
-                                <button onclick="history.go(-1)" class="btn btn-primary">
+                                <button onclick="history.go(-1)"  class="btn btn-outline-info">
                                     취소
                                 </button>
                             </div>

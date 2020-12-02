@@ -20,7 +20,7 @@
         String selectSql = "delete from comment where id = ?";
         pstmt = conn.prepareStatement(selectSql);
         pstmt.setString(1, commentId);
-        rs = pstmt.executeQuery();
+        pstmt.executeUpdate();
 
         response.sendRedirect("main.jsp");
     } catch (SQLException ex) {

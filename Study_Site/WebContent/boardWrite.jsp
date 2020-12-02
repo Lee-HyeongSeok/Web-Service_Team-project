@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ include file="dbconn_web.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Study Cafe </title>
+    <title>Study Cafe :: 게시글 작성</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS -->
@@ -13,41 +14,59 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <link rel="icon" href="image/favicon.png">
     <link rel="stylesheet" href="css/main.css">
-
+    <link rel="icon" href="image/favicon.png">
+    <script>
+        function goBackButton(){
+            if(confirm("뒤로 가시면 현재 작성한 내용은 지워집니다.\n정말 뒤로 가시겠습니까?")){
+                history.go(-1);
+            }
+        }
+    </script>
 </head>
 <body>
 <!-- header -->
-<div class="jumbotron text-center mb-0">
-    <h1>Study Cafe</h1>
-    <p>Connective Programming study community</p>
+<div class="jumbotron text-center mb-0" style="background:#08060b; padding : 0;border-radius: 0">
+    <a href="main.jsp"><img alt="special study cafe"  src="image/scs.jpg" style="height:100%" ></a>
 </div>
+
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <!-- 리스트 : 부트스트랩은 모바일 우선이라 화면이 작으면 아래로 쌓아서 내려온다 -->
     <ul class="navbar-nav navbar-dark">
         <li class="nav-item active"><a class="nav-link" href="main.jsp">HOME</a></li>
     </ul>
     <!-- Search -->
-    <form class="form-inline ml-auto" action="">
+    <form class="form-inline ml-auto" action="boardList.jsp">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <ul class="navbar-nav navbar-dark">
-                <li class="nav-item"><a class="nav-link" href="#">공지사항</a></li>
-                <li class="nav-item"><a class="nav-link disabled" href="#">카페소개</a></li>
                 <li class="nav-item dropdown">
                     <!-- 드롭다운 메뉴-->
                     <a class="nav-link dropdown-toggle" href="#"
-                       data-toggle="dropdown"> Dropdown </a>
+                       data-toggle="dropdown"> 게시판 이동 </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Link 1</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                        <a class="dropdown-item" href="#">Link 3</a>
+                        <%
+                            PreparedStatement pstmt = null;
+                            ResultSet rs = null;
+
+                            String categorySql = "select id,category from category";
+                            pstmt = conn.prepareStatement(categorySql);
+                            rs = pstmt.executeQuery();
+                            while (rs.next()) { %>
+                        <a class="dropdown-item"
+                           href="boardList.jsp?CategoryId=<%=rs.getInt("id")%>"><%=rs.getString("category")%>
+                        </a>
+                        <%
+                            }
+                            if (rs != null)
+                                rs.close();
+                            if (pstmt != null)
+                                pstmt.close();
+                        %>
                     </div>
-                </li>
             </ul>
         </nav>
         <!-- inline여야 간격이 없이 메뉴처럼 나온다. ml-atuo : 우측으로 붙게하기-->
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" name="title" id="title">
         <!-- form-control 입력창 꾸며주는 클래스 -->
         <button class="btn btn-success" type="submit">Search</button>
     </form>
@@ -57,12 +76,12 @@
     <div class="row">
         <!-- left content -->
         <div class="col-sm-3">
-            <% if (request.isRequestedSessionIdValid()) {%>
+            <% if ( request.isRequestedSessionIdValid()) {%>
             <table>
                 <tr>
                     <td>
                 <span style="font-size:1.0em;  color: black; margin:4px">
-    	            <%=request.getParameterValues("name")%>님<br> 환영합니다.
+    	            <%=session.getAttribute("sessionName")%>님<br> 환영합니다.
 	            </span>
                     </td>
                 </tr>
@@ -91,18 +110,32 @@
                         <select class="custom-select" id="categoryId" name="categoryId" required>
                             <option value="">카테고리를 선택하세요</option>
                             <%
-                                sql = "select * from category where not id=1";
-                                pstmt = conn.prepareStatement(sql);
+                                String writeSql;
+                                try{
+                                if(  session.getAttribute("sessionId").equals("1"))
+                                    writeSql = "select id,category from category";
+                                else
+                                    writeSql = "select id,category from category where not id=1";
+                                pstmt = conn.prepareStatement(writeSql);
                                 rs = pstmt.executeQuery();
                                 while (rs.next()) { %>
                             <option value="<%=rs.getInt("id")%>"><%=rs.getString("category")%>
                             </option>
                             <%
                                 }
+                                }catch (Exception e){%>
+                                    <script>
+                                        alert("로그인 후 이용해주세요.");
+                                        document.location.href = "main.jsp";
+                                    </script>
+
+                                <%} finally {
                                 if (rs != null)
                                     rs.close();
                                 if (pstmt != null)
                                     pstmt.close();
+
+                                }
                             %>
                         </select>
                     </div>
@@ -113,8 +146,8 @@
                               style="height: 300px"></textarea>
                 </div>
                 <div style="text-align: center">
-                    <button type="submit" class="btn btn-primary">작성 완료</button>
-                    <button onclick="history.go(-1)" class="btn btn-primary">뒤로 가기</button>
+                    <button type="submit" class="btn btn-outline-info">작성 완료</button>
+                    <button onclick="goBackButton();" class="btn btn-outline-info">뒤로 가기</button>
                 </div>
             </form>
         </div>

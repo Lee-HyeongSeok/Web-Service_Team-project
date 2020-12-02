@@ -22,7 +22,7 @@ CREATE TABLE `post` (
   `CategoryId` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`),
-  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `user` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -43,7 +43,7 @@ CREATE TABLE `comment` (
   `UserId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `comment_ibfk1` FOREIGN KEY (`PostId`) REFERENCES `post` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT `comment_ibfk2` FOREIGN KEY (`UserId`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `comment_ibfk2` FOREIGN KEY (`UserId`) REFERENCES `user` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `study_cafe`.`post` (`id`, `title`, `content`, `createdDate`, `updatedDate`, `UserId`, `CategoryId`) VALUES ('1', '첫번째 게시글', '안녕하세요', '20-11-19 01:26:37', '20-11-19 01:26:37', '1', '1');

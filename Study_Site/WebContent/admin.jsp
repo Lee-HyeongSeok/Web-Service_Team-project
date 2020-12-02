@@ -1,110 +1,194 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+         pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<%@ include file="dbconn_web.jsp" %>
+<html>
+<head>
+    <title>Study Cafe :: 회원 관리</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <!-- JS -->
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
+</head>
+<body>
+<!-- header -->
+<div class="jumbotron text-center mb-0" style="background:#08060b; padding : 0;border-radius: 0">
+    <a href="main.jsp"><img alt="special study cafe" src="image/scs.jpg" style="height:100%"></a>
+</div>
 
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- 리스트 : 부트스트랩은 모바일 우선이라 화면이 작으면 아래로 쌓아서 내려온다 -->
+    <ul class="navbar-nav navbar-dark">
+        <li class="nav-item active"><a class="nav-link" href="main.jsp">HOME</a></li>
+    </ul>
+    <!-- Search -->
+    <form class="form-inline ml-auto" action="boardList.jsp">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <ul class="navbar-nav navbar-dark">
+                <li class="nav-item dropdown">
+                    <!-- 드롭다운 메뉴-->
+                    <a class="nav-link dropdown-toggle" href="#"
+                       data-toggle="dropdown"> 게시판 이동 </a>
+                    <div class="dropdown-menu">
+                        <%
+                            PreparedStatement pstmt = null;
+                            ResultSet rs = null;
 
-<div>
-    <a class="navbar-brand" href="#">
-        Administrator Page
-    </a>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <form class="navbar-form navbar-left" method="GET" role="search">
-            <div class="form-group">
-                <input type="text" name="q" class="form-control" placeholder="Search">
-            </div>
-            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
-        </form>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="main2.jsp" target="_blank">Study Cafe</a></li>
-
-
-        </ul>
-    </div><!-- /.navbar-collapse -->
-</div><!-- /.container-fluid -->
+                            String categorySql = "select id,category from category";
+                            pstmt = conn.prepareStatement(categorySql);
+                            rs = pstmt.executeQuery();
+                            while (rs.next()) { %>
+                        <a class="dropdown-item"
+                           href="boardList.jsp?CategoryId=<%=rs.getInt("id")%>"><%=rs.getString("category")%>
+                        </a>
+                        <%
+                            }
+                            if (rs != null)
+                                rs.close();
+                            if (pstmt != null)
+                                pstmt.close();
+                        %>
+                    </div>
+            </ul>
+        </nav>
+        <!-- inline여야 간격이 없이 메뉴처럼 나온다. ml-atuo : 우측으로 붙게하기-->
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" name="title" id="title">
+        <!-- form-control 입력창 꾸며주는 클래스 -->
+        <input type="submit" class="btn btn-success">Search</input>
+    </form>
 </nav>
-<div class="container-fluid main-container">
-    <div class="col-md-2 sidebar">
-        <ul class="nav nav-pills nav-stacked">
-            <li class="active"><a href="#"><b>Home</b></a></li>
-            <li class=""><a href="#"><b>회원조회</b></a></li>
-        </ul>
-    </div>
 
-    <div class="col-md-10 content">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <b>회원목록
-            </div>
 
-            <div class="table-inbox-wrap ">
-                <table class="table table-inbox table-hover">
-                    <tbody>
-                    <tr class="unread">
-                        <td class="inbox-small-cells">
-                            <input type="checkbox" class="selectAllMembers">
+<!-- content -->
+<div class="container pt-3">
+    <div class="row">
+        <!-- left content -->
+        <div class="col-sm-3">
 
-                        <td><b>회원 이름</b></td>
-                        <td><b>회원 아이디</b></td>
-                        <td><b>회원 가입날짜</b></td>
+            <% if (request.isRequestedSessionIdValid()) {%>
+            <table>
+                <td>
+                <span style="font-size:1.0em;  color: black; margin:4px">
+    	            <%=session.getAttribute("sessionName")%>님<br> 환영합니다.
+	            </span>
+                </td>
+            </table>
+            <hr>
+            <%@include file="/Logout_sidebar.jsp" %>
+            <% } else {%>
+            <%@include file="/Login_sidebar.jsp" %>
+            <%}%>
+            <hr>
+            <!-- side menu (link) -->
+            <%@include file="/sidebar.jsp" %>
+        </div>
+        <!-- right content -->
+        <div class="col-sm-8">
+            <% if (request.isRequestedSessionIdValid() && session.getAttribute("sessionId").equals("1")) {%>
+            <form action="delete_user.jsp" method="get">
+                <div class="table-inbox-wrap ">
 
-                    <tr>
-                        <td class="inbox-small-cells">
-                            <input type="checkbox" class="memberChk">
-                        </td>
-                        <td>Paypal</td>
-                        <td>New payment received</td>
-                        <td>March 04</td>
-                    </tr>
-                    <tr>
-                        <td class="inbox-small-cells">
-                            <input type="checkbox" class="memberChk">
-                        </td>
-                        <td>Andrea</td>
-                        <td>Weekend plans</td>
-                        <td>March 04</td>
-                    </tr>
-                    <tr>
-                        <td class="inbox-small-cells">
-                            <input type="checkbox" class="memberChk">
-                        </td>
-                        <td>David Green</td>
-                        <td>Soccer tickets</td>
-                        <td>February 22</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <script>
-                    var selectAll = document.querySelector(".selectAllMembers");
-                    selectAll.addEventListener('click', function(){
-                        var objs = document.querySelectorAll(".memberChk");
-                        for (var i = 0; i < objs.length; i++) {
-                            objs[i].checked = selectAll.checked;
-                        };
-                    }, false);
+                    <table class="table table-inbox table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th class="inbox-small-cells">
+                                <input type="checkbox" class="selectAllMembers">
+                            <th><b>회원 이름</b></th>
+                            <th><b>회원 아이디</b></th>
+                            <th><b>회원 가입날짜</b></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                            try {
+                                String selectSql = "SELECT id,name,email,createdDate FROM USER WHERE not id=1";
+                                pstmt = conn.prepareStatement(selectSql);
+                                rs = pstmt.executeQuery();
 
+                                while (rs.next()) {%>
+                        <tr>
+
+                            <td class="inbox-small-cells">
+                                <input type="checkbox" name="userId" value="<%=rs.getString("id")%>" class="memberChk">
+                            </td>
+                            <td><%=rs.getString("name")%>
+                            </td>
+                            <td><%=rs.getString("email")%>
+                            </td>
+                            <td><%=rs.getDate("createdDate")%>
+                            </td>
+                        </tr>
+                        <%
+                                }
+                            } catch (SQLException e) {
+
+                            } finally {
+                                if (rs != null) {
+                                    rs.close();
+                                }
+                                if (pstmt != null) {
+                                    pstmt.close();
+                                }
+                                if (conn != null) {
+                                    conn.close();
+                                }
+                            }
+                        %>
+                        </tbody>
+                    </table>
+                    <div style="float: right; margin-right:30px;">
+                        <input type="submit" class="btn btn-primary" value="탈퇴">
+                    </div>
+                </div>
+            </form>
+            <script>
+                var selectAll = document.querySelector(".selectAllMembers");
+                selectAll.addEventListener('click', function () {
                     var objs = document.querySelectorAll(".memberChk");
-                    for(var i=0; i<objs.length ; i++){
-                        objs[i].addEventListener('click', function(){
-                            var selectAll = document.querySelector(".selectAllMembers");
-                            for (var j = 0; j < objs.length; j++) {
-                                if (objs[j].checked === false) {
-                                    selectAll.checked = false;
-                                    return;
-                                };
-                            };
-                            selectAll.checked = true;
-                        }, false);
+                    for (var i = 0; i < objs.length; i++) {
+                        objs[i].checked = selectAll.checked;
                     }
-                </script>
+                    ;
+                }, false);
 
-            </div>
+                var objs = document.querySelectorAll(".memberChk");
+                for (var i = 0; i < objs.length; i++) {
+                    objs[i].addEventListener('click', function () {
+                        var selectAll = document.querySelector(".selectAllMembers");
+                        for (var j = 0; j < objs.length; j++) {
+                            if (objs[j].checked === false) {
+                                selectAll.checked = false;
+                                return;
+                            }
+                            ;
+                        }
+                        ;
+                        selectAll.checked = true;
+                    }, false);
+                }
+            </script>
+        <%}%>
         </div>
 
     </div>
+
 </div>
-<div style="float: right; margin-right:30px;">
-    <input type="button" class="btn" name="btn" value="탈퇴">
 </div>
+<!-- footer -->
+<%@include file="footer.jsp" %>
+
+</body>
+</html>
+
+
+

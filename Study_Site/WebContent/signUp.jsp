@@ -6,31 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=utf-8" %>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript">
-    $(function () {
-        $("#alert-success").hide();
-        $("#alert-danger").hide();
-        $("input").keyup(function () {
-            var pwd1 = $("#passwd").val();
-            var pwd2 = $("#passwdRetype").val();
-            if (pwd1 != "" || pwd2 != "") {
-                if (pwd1 == pwd2) {
-                    $("#alert-success").show();
-                    $("#alert-danger").hide();
-                    $("#submit").removeAttr("disabled");
-                } else {
-                    $("#alert-success").hide();
-                    $("#alert-danger").show();
-                    $("#submit").attr("disabled", "disabled");
-                }
-            }
-        });
-    });
-</script>
-<!------ Include the above in your HEAD tag ---------->
+
 
 <!doctype html>
 <html lang="ko">
@@ -47,7 +23,48 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/login_register_form.css">
-    <title>Sign Up</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <%-- js    --%>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#alert-success").hide();
+            $("#alert-danger").hide();
+            $("input").keyup(function () {
+                var pwd1 = $("#passwd").val();
+                var pwd2 = $("#passwdRetype").val();
+                if (pwd1.length == 0) {
+                    $("#alert-length").hide();
+                    $("#alert-success").hide();
+                    $("#alert-danger").hide();
+                    $("#submitBtn").attr("disabled", "disabled");
+                }
+                if (pwd1 != "" || pwd2 != "") {
+                    if (pwd1.length < 8 || pwd1.length > 16) {
+                        $("#alert-length").show();
+                        $("#alert-success").hide();
+                        $("#alert-danger").hide();
+                        $("#submitBtn").attr("disabled", "disabled");
+                    }
+                    else if (pwd1 == pwd2) {
+                        $("#alert-success").show();
+                        $("#alert-length").hide();
+                        $("#alert-danger").hide();
+                        $("#submitBtn").removeAttr("disabled");
+                    } else {
+                        $("#alert-length").hide();
+                        $("#alert-success").hide();
+                        $("#alert-danger").show();
+                        $("#submitBtn").attr("disabled", "disabled");
+                    }
+                }
+            });
+        });
+    </script>
+    <!------ Include the above in your HEAD tag ---------->
+    <title>Study Cafe :: Sign Up</title>
 </head>
 <body>
 
@@ -76,7 +93,7 @@
                             <div class="mb-3">
                                 <div class="input-group is-invalid">
                                     <div class="input-group-prepend">
-                                        <label for="name" class="input-group-text">name</label>
+                                        <label for="name" class="input-group-text">이름</label>
                                     </div>
                                     <input type="text" id="name" class="form-control is-invalid" name="name" required>
                                 </div>
@@ -84,7 +101,7 @@
                             <div class="mb-3">
                                 <div class="input-group is-invalid">
                                     <div class="input-group-prepend">
-                                        <label for="passwd" class="input-group-text">Password</label>
+                                        <label for="passwd" class="input-group-text">비밀번호</label>
                                     </div>
                                     <input type="password" id="passwd" class="form-control" name="passwd" required>
 
@@ -94,20 +111,20 @@
                             <div class="mb-3">
                                 <div class="input-group is-invalid">
                                     <div class="input-group-prepend">
-                                        <label for="passwdRetype" class="input-group-text">Retype Password</label>
+                                        <label for="passwdRetype" class="input-group-text">비밀번호 재입력</label>
                                     </div>
                                     <input type="password" id="passwdRetype" class="form-control" name="passwdRetype"
                                            required>
-
                                 </div>
                             </div>
+                            <div class="alert alert-danger" id="alert-length">비밀번호는 6~18자리만 가능합니다.</div>
                             <div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
                             <div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
                             <div style="text-align: center">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" id ="submitBtn"  class="btn btn-outline-info">
                                     회원가입
                                 </button>
-                                <button onclick="history.go(-1)" class="btn btn-primary">
+                                <button onclick="history.go(-1)"  class="btn btn-outline-info">
                                     취소
                                 </button>
                             </div>
@@ -116,7 +133,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </main>
 </body>
