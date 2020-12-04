@@ -16,7 +16,11 @@
             if( session!=null && request.isRequestedSessionIdValid()&&session.getAttribute("sessionId").equals("1")){%>
         <div>
             <input type="button" style="width: 124%;margin: 4px;background-color: rgba(0, 0, 0, 0);color: skyblue;border: 2px solid skyblue;height:30pt" class="btn btn-outline-light"
-                    onClick="window.location.href = 'admin.jsp'" value="회원 관리">
+                    onClick="window.location.href = 'admin_user.jsp'" value="회원 관리">
+        </div>
+        <div>
+            <input type="button" style="width: 124%;margin: 4px;background-color: rgba(0, 0, 0, 0);color: skyblue;border: 2px solid skyblue;height:30pt" class="btn btn-outline-light"
+                    onClick="window.location.href = 'admin_category.jsp'" value="카테고리 관리">
         </div>
         <%}
         }catch (NullPointerException e){

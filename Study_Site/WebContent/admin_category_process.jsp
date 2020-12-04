@@ -95,94 +95,52 @@
         <!-- right content -->
         <div class="col-sm-8">
             <% if (request.isRequestedSessionIdValid() && session.getAttribute("sessionId").equals("1")) {%>
-            <form action="delete_user.jsp" method="get">
-                <div class="table-inbox-wrap ">
 
-                    <table class="table table-inbox table-hover">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th class="inbox-small-cells">
-                                <input type="checkbox" class="selectAllMembers">
-                            <th><b>회원 이름</b></th>
-                            <th><b>회원 아이디</b></th>
-                            <th><b>회원 가입날짜</b></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <%
-                            try {
-                                String selectSql = "SELECT id,name,email,createdDate FROM USER WHERE not id=1";
-                                pstmt = conn.prepareStatement(selectSql);
-                                rs = pstmt.executeQuery();
+            <%
+                // 삭제 버튼인지 추가 버튼인지 구별
+                String str = request.getParameter("btn");
 
-                                while (rs.next()) {%>
-                        <tr>
-
-                            <td class="inbox-small-cells">
-                                <input type="checkbox" name="userId" value="<%=rs.getString("id")%>" class="memberChk">
-                            </td>
-                            <td><%=rs.getString("name")%>
-                            </td>
-                            <td><%=rs.getString("email")%>
-                            </td>
-                            <td><%=rs.getDate("createdDate")%>
-                            </td>
-                        </tr>
-                        <%
-                                }
-                            } catch (SQLException e) {
-
-                            } finally {
-                                if (rs != null) {
-                                    rs.close();
-                                }
-                                if (pstmt != null) {
-                                    pstmt.close();
-                                }
-                                if (conn != null) {
-                                    conn.close();
-                                }
-                            }
-                        %>
-                        </tbody>
-                    </table>
-                    <div style="float: right; margin-right:30px;">
-                        <input type="submit" class="btn btn-primary" value="탈퇴">
+                if (str.equals("추가")) {
+            %>
+            <form action="admin_category_insert_process.jsp" method="post">
+                <!--  <form class ="was-validated" name="categoryProcess" method="post" action="category_add_process.jsp" > -->
+                <div class="input-group is-invalid">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="title">카테고리 이름</label>
+                        <input type="text" style="width:400px" class="form-control is-invalid" id="title" name="title" required>
                     </div>
                 </div>
+
+                <div style="text-align: center">
+                    <button type="submit" style="margin: 15px 5px" class="btn btn-info">저장</button>
+                    <button onclick="history.go(-1)"  style="margin: 15px 5px" class="btn btn-info">뒤로가기</button>
+                </div>
+                <!--  </form>-->
             </form>
-            <script>
-                var selectAll = document.querySelector(".selectAllMembers");
-                selectAll.addEventListener('click', function () {
-                    var objs = document.querySelectorAll(".memberChk");
-                    for (var i = 0; i < objs.length; i++) {
-                        objs[i].checked = selectAll.checked;
-                    }
-                    ;
-                }, false);
+            <%
+                    } else if (str.equals("삭제")) {
+                        String categoryId = request.getParameter("categoryId");
 
-                var objs = document.querySelectorAll(".memberChk");
-                for (var i = 0; i < objs.length; i++) {
-                    objs[i].addEventListener('click', function () {
-                        var selectAll = document.querySelector(".selectAllMembers");
-                        for (var j = 0; j < objs.length; j++) {
-                            if (objs[j].checked === false) {
-                                selectAll.checked = false;
-                                return;
-                            }
-                            ;
+                        PreparedStatement pstmt1 = null;
+
+                        try {
+                            String sql = "delete from category where id = ?";
+                            pstmt1 = conn.prepareStatement(sql);
+                            pstmt1.setString(1, categoryId);
+                            pstmt1.executeUpdate();
+                            response.sendRedirect("admin_category.jsp");
+                        } catch (SQLException ex) {
+                            out.println("SQLException: " + ex.getMessage());
+                        } finally {
+                            if (pstmt1 != null)
+                                pstmt1.close();
+                            if (conn != null)
+                                conn.close();
                         }
-                        ;
-                        selectAll.checked = true;
-                    }, false);
-                }
-            </script>
-        <%}%>
+                    }
+                }%>
         </div>
-
     </div>
-
-</div>
 </div>
 <!-- footer -->
 <%@include file="footer.jsp" %>

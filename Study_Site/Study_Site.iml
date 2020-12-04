@@ -17,6 +17,7 @@
         <webroots>
           <root url="file://$MODULE_DIR$/WebContent" relative="/" />
         </webroots>
+        <sourceRoots />
       </configuration>
       <facet type="webservices" name="WebServices">
         <configuration ws.engine="Apache Axis 2" />
@@ -33,5 +34,4 @@
     <orderEntry type="jdk" jdkName="14" jdkType="JavaSDK" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 9.0.38" level="application_server_libraries" />
   </component>
-  
 </module>
