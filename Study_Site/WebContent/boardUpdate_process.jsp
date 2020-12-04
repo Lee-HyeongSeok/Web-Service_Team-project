@@ -36,11 +36,10 @@
     PreparedStatement pstmt = null;
     System.out.println(userId+title+categoryId);
     try {
-        String insertSql = "INSERT INTO post(title,content,createdDate,updatedDate,UserId,CategoryId) VALUES ( ?, ?, ?, ?, ?, ?)";
+        String insertSql = "UPDATE post SET title =?,content =?,updatedDate =?,UserId=?,CategoryId=?";
         pstmt = conn.prepareStatement(insertSql);
         pstmt.setString(1, title);
         pstmt.setString(2, content);
-        pstmt.setTimestamp(3, dateTime);
         pstmt.setTimestamp(4, dateTime);
         pstmt.setString(5, userId);
         pstmt.setString(6, categoryId);

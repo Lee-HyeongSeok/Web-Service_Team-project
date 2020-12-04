@@ -148,7 +148,7 @@
                 <div class="mb-3">
                     <div class="input-group is-invalid">
                         <div class="input-group-prepend">
-                            <label for="name" class="input-group-text">이름</label>
+                            <label  style="width:150px" for="name" class="input-group-text">이름</label>
                         </div>
                         <input type="text" id="name" class="form-control is-invalid" name="name" value ="<%=rs.getString("name")%>" required>
                     </div>
@@ -156,7 +156,7 @@
                 <div class="mb-3">
                     <div class="input-group is-invalid">
                         <div class="input-group-prepend">
-                            <label for="passwd" class="input-group-text">비밀번호</label>
+                            <label style="width:150px" for="passwd" class="input-group-text">비밀번호</label>
                         </div>
                         <input type="password" id="passwd" class="form-control" value ="<%=rs.getString("password")%>" name="passwd" required>
 
@@ -166,7 +166,7 @@
                 <div class="mb-3">
                     <div class="input-group is-invalid">
                         <div class="input-group-prepend">
-                            <label for="passwdRetype" class="input-group-text">비밀번호 재입력</label>
+                            <label style="width:150px" for="passwdRetype" class="input-group-text">비밀번호 재입력</label>
                         </div>
                         <input type="password" id="passwdRetype" class="form-control" name="passwdRetype"
                                required>
@@ -176,10 +176,10 @@
                 <div class="alert alert-danger" id="alert-length">비밀번호는 6~18자리만 가능합니다.</div>
                 <div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
                 <div style="text-align: center">
-                    <button type="submit" id ="submitBtn" class="btn btn-light">
+                    <button type="submit" id ="submitBtn" class="btn btn-info">
                         수정
                     </button>
-                    <button onclick="history.go(-1)" class="btn btn-light">
+                    <button onclick="history.go(-1)" class="btn btn-info">
                         취소
                     </button>
                 </div>

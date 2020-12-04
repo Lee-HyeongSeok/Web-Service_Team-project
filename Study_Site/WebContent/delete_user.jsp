@@ -30,9 +30,9 @@
     try {
         stmt = conn.createStatement();
         stmt.executeUpdate(deleteSql);
-        response.sendRedirect("admin_user.jsp");
+        response.sendRedirect("admin.jsp");
     } catch (Exception ex) {
-        response.sendRedirect("admin_user.jsp");
+        response.sendRedirect("admin.jsp");
     } finally {
         if (rs != null)
             rs.close();

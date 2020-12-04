@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-		 pageEncoding="UTF-8"%>
-<%@ page import = "java.util.Date" %>
+		 pageEncoding="UTF-8" %>
 <%@ include file="dbconn_web.jsp" %>
-
-<!-- 나중에 boardView에 복붙하기  -->
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Study Cafe :: 게시글 수정</title>
+	<title>Study Cafe :: 게시글 작성</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- CSS -->
@@ -19,18 +16,16 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="icon" href="image/favicon.png">
-
 	<script>
-		function removePostEventListener(postId){
-			if(confirm("정말로 삭제 하시겠습니까?")){
-				document.location = "delete_post_process.jsp?postId="+ postId;
+		function goBackButton(){
+			if(confirm("뒤로 가시면 현재 작성한 내용은 지워집니다.\n정말 뒤로 가시겠습니까?")){
+				history.go(-1);
 			}
+			$('#content').val().replace(/\n/g, "<br>")
 		}
 	</script>
-
 </head>
 <body>
-
 <!-- header -->
 <div class="jumbotron text-center mb-0" style="background:#08060b; padding : 0;border-radius: 0">
 	<a href="main.jsp"><img alt="special study cafe"  src="image/scs.jpg" style="height:100%" ></a>
@@ -77,29 +72,24 @@
 		<button class="btn btn-success" type="submit">Search</button>
 	</form>
 </nav>
-
-
-
-
 <!-- content -->
 <div class="container pt-3">
 	<div class="row">
 		<!-- left content -->
 		<div class="col-sm-3">
-
-			<% if( session!=null && request.isRequestedSessionIdValid()){%>
+			<% if ( request.isRequestedSessionIdValid()) {%>
 			<table>
 				<tr>
 					<td>
-                <span style = "font-size:1.0em;  color: black; margin:4px">
-                   <%=session.getAttribute("sessionName")%>님<br> 환영합니다.
-               </span>
+                <span style="font-size:1.0em;  color: black; margin:4px">
+    	            <%=session.getAttribute("sessionName")%>님<br> 환영합니다.
+	            </span>
 					</td>
 				</tr>
 			</table>
 			<hr>
 			<%@include file="Logout_sidebar.jsp" %>
-			<% }else{%>
+			<% } else {%>
 			<%@include file="Login_sidebar.jsp" %>
 			<%}%>
 			<hr>
@@ -110,38 +100,89 @@
 		<div class="col-sm-8">
 			<%
 				request.setCharacterEncoding("UTF-8");
-				Integer postId = Integer.parseInt(request.getParameter("postId"));
-				String name = null;
-				Date createdDate = null;
+				String postId = request.getParameter("postId");
+
 				String title = null;
 				String content = null;
-				try{
-					String selectSql = "SELECT * FROM post where id = ?";
+				try {
+					// 뽑아야 할 것 : 게시글 사용자 이름(user), 게시글 제목(post), 게시글 내용(post), 게시글 만든 날짜(post), 댓글 내용(comment), 댓글 시간(comment)
+					//sql = "select * from post where id = ?";
+					String selectSql = "select title,content from post where id = ?";
 					pstmt = conn.prepareStatement(selectSql);
-					pstmt.setInt(1, postId); // postId가 post 테이블의 Id
+					pstmt.setString(1, postId); // postId가 post 테이블의 Id
 					rs = pstmt.executeQuery();
 
-					if(rs.next()) {
-						name = rs.getString("UserId");
-						createdDate = rs.getDate("createdDate");
-						title = rs.getString("title");
-						content = rs.getString("content");
+					if (rs.next()) {
+						title = rs.getString("title"); // 게시글 제목
+						content = rs.getString("content"); // 게시글 내용
 					}
-				}
-				catch(SQLException ex){
-					out.println("해당 게시글 불러오기 실패");
+
+				} catch (SQLException ex) {
+					out.println("해당 게시글 불러오기 실패1");
 					out.println("SQLException : " + ex.getMessage());
-				}
-				finally{
-					if(pstmt != null)
+				} finally {
+					if (pstmt != null)
 						pstmt.close();
-					if(conn != null)
-						conn.close();
-				}
-			%>
+					if (rs != null)
+						rs.close();
+				}%>
+			<form class="was-validated" name="BoardWriteForm" method="post" action="boardWrite_process.jsp">
+				<div class="mb-3">
+					<label for="title"></label>
+					<input type="text" class="form-control is-invalid" id="title" name="title" value="<%=title%>" required>
+				</div>
+				<div class="mb-3">
+					<div class="input-group is-invalid">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="categoryId">카테고리</label>
+						</div>
+						<select class="custom-select" id="categoryId" name="categoryId" required>
+							<option value="">카테고리를 선택하세요</option>
+							<%
+								String writeSql;
+								try{
+									if(  session.getAttribute("sessionId").equals("1"))
+										writeSql = "select id,category from category";
+									else
+										writeSql = "select id,category from category where not id=1";
+									pstmt = conn.prepareStatement(writeSql);
+									rs = pstmt.executeQuery();
+									while (rs.next()) { %>
+							<option value="<%=rs.getInt("id")%>"><%=rs.getString("category")%>
+							</option>
+							<%
+								}
+							}catch (Exception e){%>
+							<script>
+								alert("로그인 후 이용해주세요.");
+								document.location.href = "main.jsp";
+							</script>
+
+							<%} finally {
+								if (rs != null)
+									rs.close();
+								if (pstmt != null)
+									pstmt.close();
+							}
+							%>
+						</select>
+					</div>
+				</div>
+				<div class="mb-3">
+					<label for="content"></label>
+					<textarea class="form-control" id="content" placeholder="내용을 입력해주세요." name="content"
+							  style="height: 300px"><%=content%></textarea>
+				</div>
+				<div style="text-align: center">
+					<button type="submit" class="btn btn-outline-info">작성 완료</button>
+					<button onclick="goBackButton();" class="btn btn-outline-info">뒤로 가기</button>
+				</div>
+			</form>
 		</div>
-		<!-- footer -->
-		<%@include file="footer.jsp" %>
+	</div>
+</div>
+<!-- footer -->
+<%@include file="footer.jsp" %>
 
 </body>
 </html>

@@ -1,11 +1,10 @@
-<%@ page import="java.util.Enumeration" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <%@ include file="dbconn_web.jsp" %>
 <html>
 <head>
-    <title>Study Cafe</title>
+    <title>Study Cafe :: 회원 관리</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS -->
@@ -65,7 +64,7 @@
         <!-- inline여야 간격이 없이 메뉴처럼 나온다. ml-atuo : 우측으로 붙게하기-->
         <input class="form-control mr-sm-2" type="text" placeholder="Search" name="title" id="title">
         <!-- form-control 입력창 꾸며주는 클래스 -->
-        <button class="btn btn-success" type="submit">Search</button>
+        <input type="submit" class="btn btn-success">Search</input>
     </form>
 </nav>
 
@@ -95,85 +94,101 @@
         </div>
         <!-- right content -->
         <div class="col-sm-8">
-            <% if (request.isRequestedSessionIdValid()) {%>
-            <marquee behavior="alternate" scrolldelay="100" direction="right">
-                <%= session.getAttribute("sessionName")%>님 반갑습니다.
-            </marquee>
-            <%}%>
+            <% if (request.isRequestedSessionIdValid() && session.getAttribute("sessionId").equals("1")) {%>
+            <form action="delete_user.jsp" method="get">
+                <div class="table-inbox-wrap ">
 
-            <table id="postTable" class="table table-inbox table-hover" style="width : 800px; height : 250px">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">번 호</th>
-                    <th scope="col">제 목</th>
-                    <th scope="col">작성자</th>
-                    <th scope="col">작성일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <%
-                    request.setCharacterEncoding("UTF-8");
-                    try {
-                        Enumeration en = request.getParameterNames();
-                        String headerName = (String) en.nextElement();
-                        String headerValue = request.getParameter(headerName);
-                        String selectSql = "select post.id, post.title,post.content,post.updatedDate as postDate,post.UserId, user.name from post left join user on user.id = post.UserId where post.CategoryId";
+                    <table class="table table-inbox table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th class="inbox-small-cells">
+                                <input type="checkbox" class="selectAllMembers">
+                            <th><b>회원 이름</b></th>
+                            <th><b>회원 아이디</b></th>
+                            <th><b>회원 가입날짜</b></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                            try {
+                                String selectSql = "SELECT id,name,email,createdDate FROM USER WHERE not id=1";
+                                pstmt = conn.prepareStatement(selectSql);
+                                rs = pstmt.executeQuery();
 
-                        if (headerName.equals("title")) {
-                            selectSql = selectSql + " LIKE '%" + headerValue + "%' ORDER BY postDate DESC";
-                            pstmt = conn.prepareStatement(selectSql);
-                            rs = pstmt.executeQuery();
-                        }
-                        else{
-                            selectSql +=  " = ? ORDER BY postDate DESC";
-                            pstmt = conn.prepareStatement(selectSql);
-                            pstmt.setString(1, headerValue);
-                            rs = pstmt.executeQuery();
-                        }
+                                while (rs.next()) {%>
+                        <tr>
 
-                        while (rs.next()) {%>
-                <tr class="postTr" onclick="window.location.href='boardView.jsp?postId=<%=rs.getString("id")%>'">
-                    <td scope="row">#<%=rs.getString("id")%>
-                    </td>
-                    <td><%=rs.getString("title")%>
-                    </td>
-                    <td><%=rs.getString("name")%>
-                    </td>
-                    <td><%=rs.getDate("postDate")%>
-                    </td>
-                </tr>
-                <%
-                        }
-                    } catch (SQLException e) {
-                        out.println("SQLException :  " + e);
-                    } finally {
-                        if (rs != null) {
-                            rs.close();
-                        }
-                        if (pstmt != null) {
-                            pstmt.close();
-                        }
-                        if (conn != null) {
-                            conn.close();
-                        }
+                            <td class="inbox-small-cells">
+                                <input type="checkbox" name="userId" value="<%=rs.getString("id")%>" class="memberChk">
+                            </td>
+                            <td><%=rs.getString("name")%>
+                            </td>
+                            <td><%=rs.getString("email")%>
+                            </td>
+                            <td><%=rs.getDate("createdDate")%>
+                            </td>
+                        </tr>
+                        <%
+                                }
+                            } catch (SQLException e) {
+
+                            } finally {
+                                if (rs != null) {
+                                    rs.close();
+                                }
+                                if (pstmt != null) {
+                                    pstmt.close();
+                                }
+                                if (conn != null) {
+                                    conn.close();
+                                }
+                            }
+                        %>
+                        </tbody>
+                    </table>
+                    <div style="float: right; margin-right:30px;">
+                        <input type="submit" class="btn btn-info" value="탈퇴">
+                    </div>
+                </div>
+            </form>
+            <script>
+                var selectAll = document.querySelector(".selectAllMembers");
+                selectAll.addEventListener('click', function () {
+                    var objs = document.querySelectorAll(".memberChk");
+                    for (var i = 0; i < objs.length; i++) {
+                        objs[i].checked = selectAll.checked;
                     }
-                %>
-                </tbody>
-            </table>
-            <% if (request.isRequestedSessionIdValid()) {%>
+                    ;
+                }, false);
 
-            <div style="text-align: center;width: 800px;">
-                <input id="writeBtn" style="text-align: center;width: 50%" class="btn btn-info" type="button"
-                       value="글쓰기"
-                       onclick="document.location='boardWrite.jsp';"/>
-            </div>
-            <%}%>
-
+                var objs = document.querySelectorAll(".memberChk");
+                for (var i = 0; i < objs.length; i++) {
+                    objs[i].addEventListener('click', function () {
+                        var selectAll = document.querySelector(".selectAllMembers");
+                        for (var j = 0; j < objs.length; j++) {
+                            if (objs[j].checked === false) {
+                                selectAll.checked = false;
+                                return;
+                            }
+                            ;
+                        }
+                        ;
+                        selectAll.checked = true;
+                    }, false);
+                }
+            </script>
+        <%}%>
         </div>
+
     </div>
+
+</div>
 </div>
 <!-- footer -->
 <%@include file="footer.jsp" %>
 
 </body>
 </html>
+
+
+

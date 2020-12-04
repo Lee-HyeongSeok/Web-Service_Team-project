@@ -9,3 +9,4 @@ function updatePostEventListener(postId) {
         document.location = "boardUpdate.jsp?postId=" + postId;
     }
 }
+

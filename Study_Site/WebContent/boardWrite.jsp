@@ -21,6 +21,7 @@
             if(confirm("뒤로 가시면 현재 작성한 내용은 지워집니다.\n정말 뒤로 가시겠습니까?")){
                 history.go(-1);
             }
+            $('#content').val().replace(/\n/g, "<br>")
         }
     </script>
 </head>
