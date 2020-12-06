@@ -33,6 +33,7 @@
           </script>
         <%}%>
 
+
         <div>
             <input type="button" style="height:30pt" class="btn btn-outline-light"
                    id="writeBtn" onClick="window.location.href = 'boardWrite.jsp'" value="글쓰기">

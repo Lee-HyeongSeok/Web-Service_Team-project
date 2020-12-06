@@ -126,7 +126,7 @@
 					if (rs != null)
 						rs.close();
 				}%>
-			<form class="was-validated" name="BoardWriteForm" method="post" action="boardWrite_process.jsp">
+			<form class="was-validated" name="BoardUpdateForm" method="post" action="boardUpdate_process.jsp">
 				<div class="mb-3">
 					<label for="title"></label>
 					<input type="text" class="form-control is-invalid" id="title" name="title" value="<%=title%>" required>
@@ -173,6 +173,7 @@
 					<textarea class="form-control" id="content" placeholder="내용을 입력해주세요." name="content"
 							  style="height: 300px"><%=content%></textarea>
 				</div>
+				<input name="postId" id="postId" value="<%=postId%> "hidden>
 				<div style="text-align: center">
 					<button type="submit" class="btn btn-outline-info">작성 완료</button>
 					<button onclick="goBackButton();" class="btn btn-outline-info">뒤로 가기</button>

@@ -5,10 +5,13 @@
 <%@ page import = "java.sql.*" %>
 
 <%
-    java.util.Date utilDate = new java.util.Date();
-    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String today = formatter.format(new java.util.Date());
+
+    java.sql.Timestamp dateTime = java.sql.Timestamp.valueOf(today);
 %>
 <%
+    request.setCharacterEncoding("UTF-8");
     PreparedStatement pstmt1 = null;
 
     String category_title = request.getParameter("title");
@@ -18,8 +21,8 @@
         String sql = "insert into category(category, createdDate, updatedDate) values(?, ?, ?)";
         pstmt1 = conn.prepareStatement(sql);
         pstmt1.setString(1, category_title);
-        pstmt1.setDate(2, sqlDate);
-        pstmt1.setDate(3, sqlDate);
+        pstmt1.setTimestamp(2, dateTime);
+        pstmt1.setTimestamp(3, dateTime);
         pstmt1.executeUpdate();
         response.sendRedirect("admin_category.jsp");
     }catch (SQLException ex) {

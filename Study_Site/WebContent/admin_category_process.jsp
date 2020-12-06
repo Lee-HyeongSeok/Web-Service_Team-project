@@ -18,7 +18,14 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script
             src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
+    <script>
+        function goBackButton(){
+            if(confirm("뒤로 가시면 현재 작성한 내용은 지워집니다.\n정말 뒤로 가시겠습니까?")){
+                document.location="admin_category.jsp";
+            }
+            $('#content').val().replace(/\n/g, "<br>")
+        }
+    </script>
 </head>
 <body>
 <!-- header -->
@@ -112,8 +119,7 @@
                 </div>
 
                 <div style="text-align: center">
-                    <button type="submit" style="margin: 15px 5px" class="btn btn-info">저장</button>
-                    <button onclick="history.go(-1)"  style="margin: 15px 5px" class="btn btn-info">뒤로가기</button>
+                    <button type="submit"  class="btn btn-info">저장</button>
                 </div>
                 <!--  </form>-->
             </form>

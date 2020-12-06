@@ -165,7 +165,7 @@
                 <hr>
                 <div class="content_body">
                     <div class="content" style="margin:30px 0">
-                        <pre> <%=content%>
+                        <pre style="word-wrap: break-word;white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -pre-wrap;white-space: -o-pre-wrap;word-break:break-all;" style=""><%=content%>
                         </pre>
                     </div>
                 </div>

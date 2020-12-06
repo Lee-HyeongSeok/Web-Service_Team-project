@@ -29,6 +29,7 @@
     request.setCharacterEncoding("UTF-8");
 
     String userId = (String) session.getAttribute("sessionId");
+    String postId = request.getParameter("postId");
     String title = request.getParameter("title");
     String content = request.getParameter("content");
     String categoryId = request.getParameter("categoryId");
@@ -36,13 +37,14 @@
     PreparedStatement pstmt = null;
     System.out.println(userId+title+categoryId);
     try {
-        String insertSql = "UPDATE post SET title =?,content =?,updatedDate =?,UserId=?,CategoryId=?";
+        String insertSql = "UPDATE post SET title =?,content =?,updatedDate =?,UserId=?,CategoryId=? where id = ?";
         pstmt = conn.prepareStatement(insertSql);
         pstmt.setString(1, title);
         pstmt.setString(2, content);
-        pstmt.setTimestamp(4, dateTime);
-        pstmt.setString(5, userId);
-        pstmt.setString(6, categoryId);
+        pstmt.setTimestamp(3, dateTime);
+        pstmt.setString(4, userId);
+        pstmt.setString(5, categoryId);
+        pstmt.setString(6, postId);
         pstmt.executeUpdate();
 
         response.sendRedirect("main.jsp");

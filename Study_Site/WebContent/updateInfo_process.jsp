@@ -37,7 +37,9 @@
         pstmt.setTimestamp(3, dateTime);
         pstmt.setString(4, id);
         pstmt.executeUpdate();
+        session.setAttribute("sessionName",name);
         response.sendRedirect("main.jsp");
+
     } catch (SQLException ex) {
         out.println("user 테이블 삽입 실패");
         out.println("SQL Exception : " + ex.getMessage());
